@@ -1,0 +1,37 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  flex-shrink: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-grow: 1;
+  height: calc(100% - 60px); /* Altura do header e do footer subtraída */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f4f4f4;
+  flex-shrink: 0;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+main {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.footer {
+  flex-shrink: 0;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
