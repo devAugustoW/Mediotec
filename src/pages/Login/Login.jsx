@@ -15,7 +15,6 @@ function Login() {
 	const navigate = useNavigate();
 //  const [userType, setUsertype] = useState('');
   
-
   const handleLogin = async (event) => {
     event.preventDefault(); 
 		try {
@@ -23,7 +22,7 @@ function Login() {
 			const { token, user } = response.data;
 			const { user_id, userType } = user;
 
-      localStorage.setItem('user', JSON.stringify({ token, user_id, userType }));
+      localStorage.setItem('user', JSON.stringify({ token, ...user }));
 			
 			console.log('Login bem-sucedido:', response.data);
 

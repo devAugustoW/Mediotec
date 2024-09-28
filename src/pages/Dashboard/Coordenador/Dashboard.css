@@ -1,0 +1,7 @@
+.divSideDash{
+	display: flex;
+}
+
+.dashboardCoordenadorContainer{
+	flex: 1;
+}
