@@ -1,23 +1,48 @@
 import './Login.css';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+
+const routes = {
+  aluno: '/dashboardAluno',
+  professor: '/dashboardProfessor',
+  coordenador: '/dashboardCoordenador',
+};
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+	const navigate = useNavigate();
+//  const [userType, setUsertype] = useState('');
+  
 
-  const handleLogin = (dashboard) => {
-    // Aqui você pode adicionar a lógica para autenticação
-    // Por enquanto, apenas navegue para o dashboard selecionado
-    navigate(`/dashboard/${dashboard}`);
+  const handleLogin = async (event) => {
+    event.preventDefault(); 
+		try {
+			const response = await axios.post('http://localhost:3000/login', { email, password });
+			const { token, user } = response.data;
+			const { user_id, userType } = user;
+
+      localStorage.setItem('user', JSON.stringify({ token, user_id, userType }));
+			
+			console.log('Login bem-sucedido:', response.data);
+
+			const route = routes[userType];
+			if (route) navigate(route);
+			else console.error("Tipo de usuário desconhecido:", userType);
+
+			
+		} catch (error) {
+			console.error('Erro no login:', error);
+      alert('Falha no login. Verifique suas credenciais.');
+		}
   };
 
   return (
     <div className="login-container">
-      <h1>Mediotec</h1>
-      <form className="login-form">
-        <label htmlFor="email">Username</label>
+      <h1 className='login-title'>Mediotec - Login</h1>
+      <form className="login-form" onSubmit={handleLogin}>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
@@ -25,7 +50,7 @@ function Login() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <label htmlFor="password">Password</label> 
+        <label htmlFor="password">Senha</label>
         <input
           type="password"
           id="password"
@@ -33,22 +58,11 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-				<div class="login-button-group">
-					<Link to="/forgot-password" className="forgot-password-link">
-						Esqueci a senha
-					</Link>
-					<button className=' ' type="submit">Login</button>
-				</div>
 
-        <button type="button" onClick={() => handleLogin('coordenador')}>
-          Acessar Dashboard Coordenador
-        </button>
-        <button type="button" onClick={() => handleLogin('professor')}>
-          Acessar Dashboard Professor
-        </button>
-        <button type="button" onClick={() => handleLogin('aluno')}>
-          Acessar Dashboard Aluno
-        </button>
+        <div className="login-button-group">
+				<Link to="/register">Fazer cadastro</Link>
+          <button type="submit">Login </button>
+        </div>
       </form>
     </div>
   );
