@@ -2,6 +2,7 @@ import './Login.css';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../authContext/AuthContext';
 
 const routes = {
   aluno: '/dashboardAluno',
@@ -13,28 +14,29 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-//  const [userType, setUsertype] = useState('');
+	const { login } = useAuth();
   
   const handleLogin = async (event) => {
-    event.preventDefault(); 
+		event.preventDefault(); 
+
 		try {
 			const response = await axios.post('http://localhost:3000/login', { email, password });
+
 			const { token, user } = response.data;
-			const { user_id, userType } = user;
+			login(token, user);
 
-      localStorage.setItem('user', JSON.stringify({ token, ...user }));
-			
-			console.log('Login bem-sucedido:', response.data);
+			const storedToken = localStorage.getItem('token');
+			console.log('User:', user);
+			console.log('Token no localStorage:', storedToken);
 
-			const route = routes[userType];
+			const route = routes[user.userType];
 			if (route) navigate(route);
-			else console.error("Tipo de usuário desconhecido:", userType);
-
+			else console.error("Tipo de usuário desconhecido:");
 			
 		} catch (error) {
 			console.error('Erro no login:', error);
-      alert('Falha no login. Verifique suas credenciais.');
-		}
+			setErrorMessage(error.response?.data?.message || 'Erro no login. Tente novamente.');
+    }
   };
 
   return (

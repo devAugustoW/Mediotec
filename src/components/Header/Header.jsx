@@ -11,15 +11,8 @@ const Header = () => {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-	const handleLogout = () => {
-    localStorage.removeItem('user');
-		setUser(null); // Limpa o estado do usuário após o logout
-    navigate('/'); // Redireciona para a página de login após o logout
-  };
 
-	// Ou um placeholder enquanto carrega
 	if (!user) return null; 
-
 
 	return (
 		<header className="header">
@@ -28,7 +21,6 @@ const Header = () => {
 			<p>Bem-vindo, {user.name || user.email}</p>
 			<p>Email: {user.email}</p>
 			<p>Tipo de Usuário: {user.userType}</p>
-			<button onClick={handleLogout}>Logout</button>
 		</div>
 	</header>
   );
