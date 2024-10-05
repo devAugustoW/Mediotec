@@ -13,29 +13,30 @@ const routes = {
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-	const navigate = useNavigate();
-	const { login } = useAuth();
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const navigate = useNavigate();
+  const { login } = useAuth();
   
   const handleLogin = async (event) => {
-		event.preventDefault(); 
+    event.preventDefault(); 
 
-		try {
-			const response = await axios.post('http://localhost:3000/login', { email, password });
+    try {
+      const response = await axios.post('http://localhost:3000/login', { email, password });
 
-			const { token, user } = response.data;
-			login(token, user);
+      const { token, user } = response.data;
+      login(token, user);
 
-			const storedToken = localStorage.getItem('token');
-			console.log('User:', user);
-			console.log('Token no localStorage:', storedToken);
+      const storedToken = localStorage.getItem('token');
+      console.log('User:', user);
+      console.log('Token no localStorage:', storedToken);
 
-			const route = routes[user.userType];
-			if (route) navigate(route);
-			else console.error("Tipo de usuário desconhecido:");
-			
-		} catch (error) {
-			console.error('Erro no login:', error);
-			setErrorMessage(error.response?.data?.message || 'Erro no login. Tente novamente.');
+      const route = routes[user.userType];
+      if (route) navigate(route);
+      else console.error("Tipo de usuário desconhecido:", user.userType);
+      
+    } catch (error) {
+      console.error('Erro no login:', error);
+      setErrorMessage(error.response?.data?.message || 'Erro no login. Tente novamente.');
     }
   };
 
@@ -60,9 +61,11 @@ function Login() {
           required
         />
 
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Exibe a mensagem de erro */}
+
         <div className="login-button-group">
-				<Link to="/register">Fazer cadastro</Link>
-          <button type="submit">Login </button>
+          <Link to="/register">Fazer cadastro</Link>
+          <button type="submit">Login</button>
         </div>
       </form>
     </div>

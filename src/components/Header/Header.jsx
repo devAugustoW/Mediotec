@@ -1,28 +1,22 @@
+import React from 'react';
 import './Header.css';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+
+const getUserInfo = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  return user ? { name: user.name, email: user.email } : { name: '', email: '' };
+};
+
+const { name, email } = getUserInfo();
 
 const Header = () => {
-  const navigate = useNavigate();
-	const [user, setUser] = useState(null);
-
-	useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
-
-
-	if (!user) return null; 
-
-	return (
-		<header className="header">
-		<div className="header-logo">Mediotec</div>
-		<div className="header-user">
-			<p>Bem-vindo, {user.name || user.email}</p>
-			<p>Email: {user.email}</p>
-			<p>Tipo de Usuário: {user.userType}</p>
-		</div>
-	</header>
+  return (
+    <div className="header">
+      <div className="header-logo">Mediotec</div>
+      <div className="header-user">
+        <p>Bem-vindo, {name}</p>
+				<p>{email}</p>
+      </div>
+    </div>
   );
 };
 

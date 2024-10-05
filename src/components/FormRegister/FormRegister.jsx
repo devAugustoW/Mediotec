@@ -1,27 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FormRegister.css';
 
-const FormRegister = ({ onSubmit, userType = 'aluno' }) => {
-  const [name, setName] = useState('');
+// componente Formulário
+const FormRegister = ({ onSubmit, userType = 'aluno', initialData = null }) => {
+  
+	// Definindo estados para nome e email
+	const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+	// atualizar os estados quando initialData mudar
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name || '');
+      setEmail(initialData.email || '');
+    } else {
+      setName('');
+      setEmail('');
+    }
+  }, [initialData]);
+
+	// Função para lidar com o envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = {
+      ...initialData, // Manter outros dados do aluno se existirem
       name,
       email,
       userType,
-      password: '12345' // Senha padrão para alunos
+      password: initialData ? initialData.password : '12345' // Senha padrão ou existente
     };
-    onSubmit(userData);
-    // Limpar os campos após o envio
+    onSubmit(userData);  // Chamar a função onSubmit passada como prop
     setName('');
     setEmail('');
   };
 
   return (
     <div className="register-container">
-      <h2 className='register-title'>Cadastro de Aluno</h2>
+      <h2 className='register-title'>
+        {initialData ? 'Atualizar Aluno' : 'Cadastro de Aluno'}
+      </h2>
       <form className="register-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Nome</label>
         <input
@@ -47,9 +64,13 @@ const FormRegister = ({ onSubmit, userType = 'aluno' }) => {
           readOnly
           className="readonly-input"
         />
-        <p className="password-info">A senha padrão '12345' será atribuída ao aluno.</p>
+        <p className="password-info">
+          {initialData ? 'A senha atual será mantida.' : 'A senha padrão "12345" será atribuída ao aluno.'}
+        </p>
         <div className="register-button-group">
-          <button type="submit" className="btn-register-send">Cadastrar</button>
+          <button type="submit" className="btn-register-send">
+            {initialData ? 'Atualizar' : 'Cadastrar'}
+          </button>
         </div>
       </form>
     </div>

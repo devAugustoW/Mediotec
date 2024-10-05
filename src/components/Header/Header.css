@@ -1,24 +1,15 @@
 .header {
-	width: 97%;
-	height: 165px;
+  width: 100%; /* O Header ocupa 100% da largura */
+  height: 165px; /* Altura do Header */
   display: flex;
   justify-content: space-between; /* Alinha o logo e as informações do usuário */
-  align-items: center;
-  padding: 10px;
-  background-color: #f0f0f0; /* Adicione uma cor de fundo se desejar */
-}
-
-.header-logo {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.header-user {
-  display: flex;
-  flex-direction: column; /* Organiza informações do usuário verticalmente */
-  align-items: flex-end; /* Alinha as informações à direita */
-}
-
-.header-user p {
-  margin: 5px 0;
+  align-items: center; /* Alinha verticalmente os itens no centro */
+  padding: 10px 20px; /* Adiciona padding para evitar que o texto fique colado nas bordas */
+  background-color: #4A90E2; /* Cor de fundo do Header */
+  position: fixed; /* Fixa o Header no topo */
+  top: 0; /* Fixa no topo */
+  left: 0; /* Fixa à esquerda */
+  z-index: 1000; /* Garante que o Header fique acima de outros elementos */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra para destacar o Header */
+  color: white; /* Cor do texto */
 }

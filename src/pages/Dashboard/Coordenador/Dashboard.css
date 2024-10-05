@@ -1,7 +1,12 @@
-.divSideDash{
-	display: flex;
+.dashboardWrapper{
+	width: 100%;
 }
 
-.dashboardCoordenadorContainer{
-	flex: 1;
+.dashboardSidebar{
+	width: 300px;
+}
+
+.dashboardContent{
+	width: 70%;
+	margin-left: 300px;
 }
