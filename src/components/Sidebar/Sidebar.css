@@ -1,37 +1,36 @@
 .sidebar {
-  width: 250px; /* Largura do Sidebar */
-  height: calc(100vh - 165px); /* Altura do Sidebar ocupa o restante da tela abaixo do Header */
-  background-color: #f4f4f4; /* Cor de fundo do Sidebar */
-  padding: 20px; /* Padding interno */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para destacar o Sidebar */
+  width: 180px;
+  height: calc(100vh - 165px);
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column; /* Organiza os itens em coluna */
-  position: fixed; /* Fixa o Sidebar na lateral */
-  top: 165px; /* Abaixo do Header */
-  left: 0; /* Fixa à esquerda */
-  z-index: 999; /* Garante que o Sidebar fique acima do conteúdo */
+  flex-direction: column;
+
 }
 
 .sidebar-title {
-  font-size: 1.5em; /* Tamanho da fonte do título */
-  margin-bottom: 20px; /* Espaço abaixo do título */
+  font-size: 22px;
+  margin-bottom: 20px;
+	margin-left: -80px;
 }
 
 .sidebar-menu {
-  flex-grow: 1; /* Permite que a lista de links ocupe o espaço restante */
+  flex-grow: 1;
+	margin-left: -30px;
   display: flex;
-  flex-direction: column; /* Organiza os links em coluna */
-  row-gap: 10px; /* Espaço entre os links */
+  flex-direction: column;
+  row-gap: 10px;
 }
 
 .sidebar-menu a {
-  text-decoration: none; /* Remove o sublinhado dos links */
-  color: #333; /* Cor do texto dos links */
-  padding: 10px; /* Padding interno para os links */
-  border-radius: 4px; /* Bordas arredondadas */
-  transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
 .sidebar-menu a:hover {
-  background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+  background-color: #e0e0e0;
 }

@@ -1,12 +1,19 @@
-.dashboardWrapper{
+.dashboardCoordinator{
 	width: 100%;
+	height: 100%;
+	margin-top: 165px;
+
+	display: flex;
+	flex-direction: column;
+
 }
 
-.dashboardSidebar{
-	width: 300px;
+.dashboardWrapper{
+	display: flex;
+
 }
+
 
 .dashboardContent{
-	width: 70%;
-	margin-left: 300px;
+	width: 100%;
 }

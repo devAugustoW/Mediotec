@@ -3,30 +3,30 @@ import axios from 'axios';
 import { useAuth } from '../../authContext/AuthContext';
 import FormRegister from '../FormRegister/FormRegister';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import './StudentList.css';
+import './TeacherList.css';
 
-const StudentList = () => {
-  const [students, setStudents] = useState([]);
+const TeacherList = () => {
+  const [teachers, setTeachers] = useState([]);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [editingStudent, setEditingStudent] = useState(null); 
+  const [editingTeacher, setEditingTeacher] = useState(null);
   const { token } = useAuth();
 
   useEffect(() => {
-    fetchStudents();
+    fetchTeachers();
   }, [token]);
 
-  const fetchStudents = async () => {
+  const fetchTeachers = async () => {
     try {
       const response = await axios.get('http://localhost:3000/users', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      const filteredStudents = response.data.filter(user => user.userType === 'aluno');
-      setStudents(filteredStudents);
+      const filteredTeachers = response.data.filter(user => user.userType === 'professor');
+      setTeachers(filteredTeachers);
     } catch (error) {
-      console.error('Erro ao buscar alunos:', error);
-      setError('Não foi possível carregar a lista de alunos.');
+      console.error('Erro ao buscar docentes:', error);
+      setError('Não foi possível carregar a lista de docentes.');
     }
   };
 
@@ -54,14 +54,14 @@ const StudentList = () => {
       );
 
       if (response.status === 201) {
-        console.log('Aluno cadastrado com sucesso:', response.data);
+        console.log('Docente cadastrado com sucesso:', response.data);
         setShowForm(false);
-        fetchStudents();
+        fetchTeachers();
       }
     } catch (error) {
-      console.error('Erro ao cadastrar aluno:', error);
+      console.error('Erro ao cadastrar professor:', error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível cadastrar o aluno.');
+        setError(error.response.data.error || 'Não foi possível cadastrar o professor.');
       } else {
         setError('Erro de conexão. Tente novamente mais tarde.');
       }
@@ -92,46 +92,46 @@ const StudentList = () => {
       );
 
       if (response.status === 200) {
-        console.log('Aluno atualizado com sucesso:', response.data);
+        console.log('Docente atualizado com sucesso:', response.data);
         setShowForm(false);
-        setEditingStudent(null); // Limpa o aluno em edição
-        fetchStudents();
+        setEditingTeacher(null); // Limpa o professor em edição
+        fetchTeachers();
       }
     } catch (error) {
-      console.error('Erro ao atualizar aluno:', error);
+      console.error('Erro ao atualizar professor:', error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível atualizar o aluno.');
+        setError(error.response.data.error || 'Não foi possível atualizar o professor.');
       } else {
         setError('Erro de conexão. Tente novamente mais tarde.');
       }
     }
   };
 
-  const handleEditStudent = (studentId) => {
-    const studentToEdit = students.find(student => student._id === studentId);
-    setEditingStudent(studentToEdit);
+  const handleEditTeacher = (teacherId) => {
+    const teacherToEdit = teachers.find(teacher => teacher._id === teacherId);
+    setEditingTeacher(teacherToEdit);
     setShowForm(true);
   };
 
-  const handleDeleteStudent = async (studentId) => {
+  const handleDeleteTeacher = async (teacherId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/users/${studentId}`, {
+      const response = await axios.delete(`http://localhost:3000/users/${teacherId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (response.status === 200) {
-        console.log('Usuário deletado com sucesso:', response.data.message);
-        fetchStudents(); // Atualiza a lista de alunos após a exclusão
+        console.log('Professor deletado com sucesso:', response.data.message);
+        fetchTeachers(); // Atualiza a lista de Professores após a exclusão
       }
     } catch (error) {
-      console.error('Erro ao deletar aluno:', error);
+      console.error('Erro ao deletar Professor:', error);
       if (error.response) {
         if (error.response.status === 403) {
           setError('Acesso negado. Apenas coordenadores podem deletar usuários.');
         } else if (error.response.status === 404) {
           setError('Usuário não encontrado.');
         } else {
-          setError(error.response.data.error || 'Não foi possível deletar o aluno.');
+          setError(error.response.data.error || 'Não foi possível deletar o professor.');
         }
       } else {
         setError('Erro de conexão. Tente novamente mais tarde.');
@@ -143,31 +143,30 @@ const StudentList = () => {
     return <div className="error-message">{error}</div>;
   }
 
-  // End Generation Here
   return (
-    <div className="student-list-container">
-      <h2>Gerenciamento de Alunos</h2>
+    <div className="teacher-list-container">
+      <h2>Gerenciamento de Docentes</h2>
       <div className="button-container"> 
         <button onClick={() => {
           setShowForm(!showForm);
-          setEditingStudent(null); // Limpa o aluno em edição ao criar novo
+          setEditingTeacher(null); // Limpa o professor em edição ao criar novo
         }} className="toggle-button">
-          {showForm ? 'Voltar para Lista' : 'Cadastrar Novo Aluno'}
+          {showForm ? 'Voltar para Lista' : 'Cadastrar Novo Docente'}
         </button>
       </div>
 
       {showForm ? (
         <FormRegister 
-          onSubmit={editingStudent ? handleUpdateSubmit : handleRegisterSubmit}
-          userType="aluno"
-          initialData={editingStudent}
+          onSubmit={editingTeacher ? handleUpdateSubmit : handleRegisterSubmit}
+          userType="professor"
+          initialData={editingTeacher}
         />
       ) : (
         <>
-          {students.length === 0 ? (
-            <p>Nenhum aluno encontrado.</p>
+          {teachers.length === 0 ? (
+            <p>Nenhum professor encontrado.</p>
           ) : (
-            <table className="student-table">
+            <table className="teacher-table">
               <thead>
                 <tr>
                   <th>Nome</th>
@@ -176,18 +175,18 @@ const StudentList = () => {
                 </tr>
               </thead>
               <tbody>
-                {students.map(student => (
-                  <tr key={student._id}>
-                    <td>{student.name}</td>
-                    <td>{student.email}</td>
+                {teachers.map(teacher => (
+                  <tr key={teacher._id}>
+                    <td>{teacher.name}</td>
+                    <td>{teacher.email}</td>
                     <td className='action-column'> 
                       <FaEdit 
-                        onClick={() => handleEditStudent(student._id)} 
+                        onClick={() => handleEditTeacher(teacher._id)} 
                         className="action-button action-button--edit" 
                         title="Editar"
                       />
                       <FaTrash 
-                        onClick={() => handleDeleteStudent(student._id)} 
+                        onClick={() => handleDeleteTeacher(teacher._id)} 
                         className="action-button action-button--delete" 
                         title="Deletar"
                       />
@@ -203,4 +202,4 @@ const StudentList = () => {
   );
 };
 
-export default StudentList;
+export default TeacherList;

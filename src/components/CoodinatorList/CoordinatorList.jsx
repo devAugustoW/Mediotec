@@ -3,30 +3,30 @@ import axios from 'axios';
 import { useAuth } from '../../authContext/AuthContext';
 import FormRegister from '../FormRegister/FormRegister';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import './StudentList.css';
+import './CoordinatorList.css';
 
-const StudentList = () => {
-  const [students, setStudents] = useState([]);
+const CoordinatorList = () => {
+  const [coordinators, setCoordinators] = useState([]);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [editingStudent, setEditingStudent] = useState(null); 
+  const [editingCoordinator, setEditingCoordinator] = useState(null);
   const { token } = useAuth();
 
   useEffect(() => {
-    fetchStudents();
+    fetchCoordinators();
   }, [token]);
 
-  const fetchStudents = async () => {
+  const fetchCoordinators = async () => {
     try {
       const response = await axios.get('http://localhost:3000/users', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      const filteredStudents = response.data.filter(user => user.userType === 'aluno');
-      setStudents(filteredStudents);
+      const filteredCoordinators = response.data.filter(user => user.userType === 'coordenador');
+      setCoordinators(filteredCoordinators);
     } catch (error) {
-      console.error('Erro ao buscar alunos:', error);
-      setError('Não foi possível carregar a lista de alunos.');
+      console.error('Erro ao buscar coordenadores:', error);
+      setError('Não foi possível carregar a lista de coordenadores.');
     }
   };
 
@@ -54,14 +54,14 @@ const StudentList = () => {
       );
 
       if (response.status === 201) {
-        console.log('Aluno cadastrado com sucesso:', response.data);
+        console.log('Coordenador cadastrado com sucesso:', response.data);
         setShowForm(false);
-        fetchStudents();
+        fetchCoordinators();
       }
     } catch (error) {
-      console.error('Erro ao cadastrar aluno:', error);
+      console.error('Erro ao cadastrar coordenador:', error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível cadastrar o aluno.');
+        setError(error.response.data.error || 'Não foi possível cadastrar o coordenador.');
       } else {
         setError('Erro de conexão. Tente novamente mais tarde.');
       }
@@ -92,46 +92,46 @@ const StudentList = () => {
       );
 
       if (response.status === 200) {
-        console.log('Aluno atualizado com sucesso:', response.data);
+        console.log('Coordenador atualizado com sucesso:', response.data);
         setShowForm(false);
-        setEditingStudent(null); // Limpa o aluno em edição
-        fetchStudents();
+        setEditingCoordinator(null); // Limpa o coordenador em edição
+        fetchCoordinators();
       }
     } catch (error) {
-      console.error('Erro ao atualizar aluno:', error);
+      console.error('Erro ao atualizar coordenador:', error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível atualizar o aluno.');
+        setError(error.response.data.error || 'Não foi possível atualizar o coordenador.');
       } else {
         setError('Erro de conexão. Tente novamente mais tarde.');
       }
     }
   };
 
-  const handleEditStudent = (studentId) => {
-    const studentToEdit = students.find(student => student._id === studentId);
-    setEditingStudent(studentToEdit);
+  const handleEditCoordinator = (coordinatorId) => {
+    const coordinatorToEdit = coordinators.find(coordinator => coordinator._id === coordinatorId);
+    setEditingCoordinator(coordinatorToEdit);
     setShowForm(true);
   };
 
-  const handleDeleteStudent = async (studentId) => {
+  const handleDeleteCoordinator = async (coordinatorId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/users/${studentId}`, {
+      const response = await axios.delete(`http://localhost:3000/users/${coordinatorId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (response.status === 200) {
-        console.log('Usuário deletado com sucesso:', response.data.message);
-        fetchStudents(); // Atualiza a lista de alunos após a exclusão
+        console.log('Coordenador deletado com sucesso:', response.data.message);
+        fetchCoordinators(); // Atualiza a lista de coordenadores após a exclusão
       }
     } catch (error) {
-      console.error('Erro ao deletar aluno:', error);
+      console.error('Erro ao deletar coordenador:', error);
       if (error.response) {
         if (error.response.status === 403) {
           setError('Acesso negado. Apenas coordenadores podem deletar usuários.');
         } else if (error.response.status === 404) {
           setError('Usuário não encontrado.');
         } else {
-          setError(error.response.data.error || 'Não foi possível deletar o aluno.');
+          setError(error.response.data.error || 'Não foi possível deletar o coordenador.');
         }
       } else {
         setError('Erro de conexão. Tente novamente mais tarde.');
@@ -143,31 +143,30 @@ const StudentList = () => {
     return <div className="error-message">{error}</div>;
   }
 
-  // End Generation Here
   return (
-    <div className="student-list-container">
-      <h2>Gerenciamento de Alunos</h2>
+    <div className="coordinator-list-container">
+      <h2>Gerenciamento de Coordenadores</h2>
       <div className="button-container"> 
         <button onClick={() => {
           setShowForm(!showForm);
-          setEditingStudent(null); // Limpa o aluno em edição ao criar novo
+          setEditingCoordinator(null); // Limpa o coordenador em edição ao criar novo
         }} className="toggle-button">
-          {showForm ? 'Voltar para Lista' : 'Cadastrar Novo Aluno'}
+          {showForm ? 'Voltar para Lista' : 'Cadastrar Novo Coordenador'}
         </button>
       </div>
 
       {showForm ? (
         <FormRegister 
-          onSubmit={editingStudent ? handleUpdateSubmit : handleRegisterSubmit}
-          userType="aluno"
-          initialData={editingStudent}
+          onSubmit={editingCoordinator ? handleUpdateSubmit : handleRegisterSubmit}
+          userType="coordenador"
+          initialData={editingCoordinator}
         />
       ) : (
         <>
-          {students.length === 0 ? (
-            <p>Nenhum aluno encontrado.</p>
+          {coordinators.length === 0 ? (
+            <p>Nenhum coordenador encontrado.</p>
           ) : (
-            <table className="student-table">
+            <table className="coordinator-table">
               <thead>
                 <tr>
                   <th>Nome</th>
@@ -176,18 +175,18 @@ const StudentList = () => {
                 </tr>
               </thead>
               <tbody>
-                {students.map(student => (
-                  <tr key={student._id}>
-                    <td>{student.name}</td>
-                    <td>{student.email}</td>
+                {coordinators.map(coordinator => (
+                  <tr key={coordinator._id}>
+                    <td>{coordinator.name}</td>
+                    <td>{coordinator.email}</td>
                     <td className='action-column'> 
                       <FaEdit 
-                        onClick={() => handleEditStudent(student._id)} 
+                        onClick={() => handleEditCoordinator(coordinator._id)} 
                         className="action-button action-button--edit" 
                         title="Editar"
                       />
                       <FaTrash 
-                        onClick={() => handleDeleteStudent(student._id)} 
+                        onClick={() => handleDeleteCoordinator(coordinator._id)} 
                         className="action-button action-button--delete" 
                         title="Deletar"
                       />
@@ -203,4 +202,4 @@ const StudentList = () => {
   );
 };
 
-export default StudentList;
+export default CoordinatorList;

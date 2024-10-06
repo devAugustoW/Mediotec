@@ -1,4 +1,4 @@
-.student-list-container {
+.coordinator-list-container {
   width: 100%;
   padding: 20px;
   background-color: #f5f5f5;
@@ -21,24 +21,24 @@ h2 {
 .right-button {
   position: absolute; 
   right: 20px; 
-  top: 20px; /* Distância do topo */
+  top: 20px;
 }
 
-.student-table {
+.coordinator-table {
   width: 100%;
   border-collapse: collapse;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.student-table th,
-.student-table td {
+.coordinator-table th,
+.coordinator-table td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.student-table th {
+.coordinator-table th {
   background-color: #f0f0f0;
   font-weight: bold;
   color: #333;
@@ -46,15 +46,15 @@ h2 {
   font-size: 0.9em;
 }
 
-.student-table tr:last-child td {
+.coordinator-table tr:last-child td {
   border-bottom: none;
 }
 
-.student-table tr:nth-child(even) {
+.coordinator-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.student-table tr:hover {
+.coordinator-table tr:hover {
   background-color: #f0f0f0;
 }
 
