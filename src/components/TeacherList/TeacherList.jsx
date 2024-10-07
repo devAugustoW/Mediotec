@@ -69,14 +69,6 @@ const TeacherList = () => {
   };
 
   const handleUpdateSubmit = async (userData) => {
-    console.log('Dados da atualização:', {
-      nome: userData.name,
-      email: userData.email,
-      senha: userData.password,
-      userType: userData.userType,
-      token: token
-    });
-
     try {
       const response = await axios.put(
         `http://localhost:3000/users/${userData._id}`, 
