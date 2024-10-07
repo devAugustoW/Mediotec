@@ -1,0 +1,125 @@
+.teacher-discipline-container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.toggle-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-button:hover {
+  background-color: #155a9c;
+}
+
+.association-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.association-form select,
+.association-form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.association-form button {
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.association-form button:hover {
+  background-color: #155a9c;
+}
+
+.association-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.association-table th,
+.association-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.association-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.association-table tr:last-child td {
+  border-bottom: none;
+}
+
+.association-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.association-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.action-column {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.action-button {
+  cursor: pointer;
+  margin: 0 8px;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.action-button--edit {
+  color: #1976d2;
+}
+
+.action-button--delete {
+  color: #d32f2f;
+}
+
+.action-button:hover {
+  opacity: 0.7;
+}

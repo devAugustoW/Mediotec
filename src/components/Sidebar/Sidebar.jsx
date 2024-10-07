@@ -21,6 +21,11 @@ const Sidebar = ({ setActiveSection }) => {
 				<li><a onClick={() => setActiveSection('coordenadores')}>Coordenadores</a></li>
         <li><a onClick={() => setActiveSection('turmas')}>Turmas</a></li>
         <li><a onClick={() => setActiveSection('disciplinas')}>Disciplinas</a></li>
+
+				<li><a onClick={() => setActiveSection('teacher-discipline')}>Professor/Disciplina</a></li>
+				<li><a onClick={() => setActiveSection('class-discipline')}>Turma/Disciplina</a></li>
+				<li><a onClick={() => setActiveSection('student-class')}>Aluno/Turma</a></li>
+
         <li><a onClick={() => setActiveSection('conceitos')}>Conceitos</a></li>
         <li><a onClick={() => setActiveSection('avisos')}>Avisos</a></li> 
       </ul>

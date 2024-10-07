@@ -6,8 +6,10 @@ import StudentList from '../../../components/StudentList/StudentList';
 import TeacherList from '../../../components/TeacherList/TeacherList';
 import CoordinatorList from '../../../components/CoodinatorList/CoordinatorList';
 import ClassList from '../../../components/ClassList/ClassList';
-
-
+import SubjectList from '../../../components/DisciplineList/DisciplineList';
+import TeacherDiscipline from '../../../components/TeacherDiscipline/TeacherDiscipline';
+import ClassDiscipline from '../../../components/ClassDiscipline/ClassDiscipline';
+import StudentClass from '../../../components/StudentClass/StudentClass';
 
 const DashboardCoordenador = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -24,6 +26,12 @@ const DashboardCoordenador = () => {
         return <ClassList />; 
       case 'disciplinas':
         return <SubjectList />; 
+      case 'teacher-discipline':
+        return <TeacherDiscipline />;
+      case 'class-discipline':
+        return <ClassDiscipline />;
+      case 'student-class':
+        return <StudentClass />;
       case 'conceitos':
         return <GradeList />; 
       default:
