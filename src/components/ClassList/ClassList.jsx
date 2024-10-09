@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../authContext/AuthContext';
-import { FaEdit, FaTrash } from 'react-icons/fa'; // Importando os ícones
-import './ClassList.css';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../authContext/AuthContext";
+import { FaEdit, FaTrash } from "react-icons/fa"; // Importando os ícones
+import "./ClassList.css";
 
 const ClassList = () => {
   const [classes, setClasses] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [newClass, setNewClass] = useState({ name: '', year: '', semester: '' });
+  const [newClass, setNewClass] = useState({
+    name: "",
+    year: "",
+    semester: "",
+  });
   const [editingClassId, setEditingClassId] = useState(null); // Novo estado para armazenar o ID da turma em edição
   const { token } = useAuth();
 
@@ -18,13 +22,13 @@ const ClassList = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getAllClasses', {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await axios.get("http://localhost:3000/getAllClasses", {
+        headers: { Authorization: `Bearer ${token}` },
       });
       setClasses(response.data);
     } catch (error) {
-      console.error('Erro ao buscar turmas:', error);
-      setError('Não foi possível carregar a lista de turmas.');
+      console.error("Erro ao buscar turmas:", error);
+      setError("Não foi possível carregar a lista de turmas.");
     }
   };
 
@@ -32,25 +36,27 @@ const ClassList = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/createClass',
+        "http://localhost:3000/createClass",
         newClass,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       if (response.status === 201) {
-        console.log('Turma cadastrada com sucesso:', response.data);
+        console.log("Turma cadastrada com sucesso:", response.data);
         setShowForm(false);
-        setNewClass({ name: '', year: '', semester: '' });
+        setNewClass({ name: "", year: "", semester: "" });
         fetchClasses();
       }
     } catch (error) {
-      console.error('Erro ao cadastrar turma:', error);
+      console.error("Erro ao cadastrar turma:", error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível cadastrar a turma.');
+        setError(
+          error.response.data.error || "Não foi possível cadastrar a turma."
+        );
       } else {
-        setError('Erro de conexão. Tente novamente mais tarde.');
+        setError("Erro de conexão. Tente novamente mais tarde.");
       }
     }
   };
@@ -62,23 +68,25 @@ const ClassList = () => {
         `http://localhost:3000/editClass/${editingClassId}`, // Ajuste a URL para a rota correta
         newClass,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       if (response.status === 200) {
-        console.log('Turma atualizada com sucesso:', response.data);
+        console.log("Turma atualizada com sucesso:", response.data);
         setShowForm(false);
-        setNewClass({ name: '', year: '', semester: '' });
+        setNewClass({ name: "", year: "", semester: "" });
         setEditingClassId(null);
         fetchClasses();
       }
     } catch (error) {
-      console.error('Erro ao atualizar turma:', error);
+      console.error("Erro ao atualizar turma:", error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível atualizar a turma.');
+        setError(
+          error.response.data.error || "Não foi possível atualizar a turma."
+        );
       } else {
-        setError('Erro de conexão. Tente novamente mais tarde.');
+        setError("Erro de conexão. Tente novamente mais tarde.");
       }
     }
   };
@@ -94,26 +102,31 @@ const ClassList = () => {
       setEditingClassId(classId); // Armazena o ID da turma em edição
       setShowForm(true);
     } else {
-      setError('Turma não encontrada.');
+      setError("Turma não encontrada.");
     }
   };
 
   const handleDeleteClass = async (classId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/deleteClass/${classId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.delete(
+        `http://localhost:3000/deleteClass/${classId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (response.status === 200) {
-        console.log('Turma deletada com sucesso:', response.data.message);
+        console.log("Turma deletada com sucesso:", response.data.message);
         fetchClasses(); // Atualiza a lista de turmas após a exclusão
       }
     } catch (error) {
-      console.error('Erro ao deletar turma:', error);
+      console.error("Erro ao deletar turma:", error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível deletar a turma.');
+        setError(
+          error.response.data.error || "Não foi possível deletar a turma."
+        );
       } else {
-        setError('Erro de conexão. Tente novamente mais tarde.');
+        setError("Erro de conexão. Tente novamente mais tarde.");
       }
     }
   };
@@ -126,16 +139,22 @@ const ClassList = () => {
     <div className="class-list-container">
       <h2>Gerenciamento de Turmas</h2>
       <div className="button-container">
-        <button onClick={() => {
-          setShowForm(!showForm);
-          setEditingClassId(null); // Limpa o ID da turma em edição ao criar novo
-        }} className="toggle-button">
-          {showForm ? 'Voltar para Lista' : 'Cadastrar Nova Turma'}
+        <button
+          onClick={() => {
+            setShowForm(!showForm);
+            setEditingClassId(null); // Limpa o ID da turma em edição ao criar novo
+          }}
+          className="toggle-button"
+        >
+          {showForm ? "Voltar para Lista" : "Cadastrar Nova Turma"}
         </button>
       </div>
 
       {showForm ? (
-        <form onSubmit={editingClassId ? handleUpdateClass : handleRegisterSubmit} className="class-form">
+        <form
+          onSubmit={editingClassId ? handleUpdateClass : handleRegisterSubmit}
+          className="class-form"
+        >
           <input
             type="text"
             placeholder="Nome da Turma"
@@ -154,10 +173,14 @@ const ClassList = () => {
             type="text"
             placeholder="Semestre"
             value={newClass.semester}
-            onChange={(e) => setNewClass({ ...newClass, semester: e.target.value })}
+            onChange={(e) =>
+              setNewClass({ ...newClass, semester: e.target.value })
+            }
             required
           />
-          <button type="submit">{editingClassId ? 'Atualizar' : 'Cadastrar'}</button>
+          <button type="submit">
+            {editingClassId ? "Atualizar" : "Cadastrar"}
+          </button>
         </form>
       ) : (
         <>
@@ -170,7 +193,7 @@ const ClassList = () => {
                   <th>Nome</th>
                   <th>Ano</th>
                   <th>Semestre</th>
-                  <th className='actions-column'>Ações</th>
+                  <th className="actions-column">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -179,7 +202,7 @@ const ClassList = () => {
                     <td>{classItem.name}</td>
                     <td>{classItem.year}</td>
                     <td>{classItem.semester}</td>
-                    <td className='action-column'>
+                    <td className="action-column">
                       <FaEdit
                         onClick={() => editClass(classItem._id)}
                         className="action-button action-button--edit"

@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../authContext/AuthContext';
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import './TeacherDiscipline.css';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../authContext/AuthContext";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import "./TeacherDiscipline.css";
 
 const TeacherDiscipline = () => {
   const [associations, setAssociations] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [disciplines, setDisciplines] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [newAssociation, setNewAssociation] = useState({ teacher: '', discipline: '' });
+  const [newAssociation, setNewAssociation] = useState({
+    teacher: "",
+    discipline: "",
+  });
   const [editingAssociation, setEditingAssociation] = useState(null);
   const { token } = useAuth();
 
@@ -22,38 +25,46 @@ const TeacherDiscipline = () => {
 
   const fetchAssociations = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getAllTeacherDisciplines', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get(
+        "http://localhost:3000/getAllTeacherDisciplines",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setAssociations(response.data);
     } catch (error) {
-      console.error('Erro ao buscar associações:', error);
-      setError('Não foi possível carregar a lista de associações.');
+      console.error("Erro ao buscar associações:", error);
+      setError("Não foi possível carregar a lista de associações.");
     }
   };
 
   const fetchTeachers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/users', {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await axios.get("http://localhost:3000/users", {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      const filteredTeachers = response.data.filter(user => user.userType === 'professor');
+      const filteredTeachers = response.data.filter(
+        (user) => user.userType === "professor"
+      );
       setTeachers(filteredTeachers);
     } catch (error) {
-      console.error('Erro ao buscar professores:', error);
-      setError('Não foi possível carregar a lista de professores.');
+      console.error("Erro ao buscar professores:", error);
+      setError("Não foi possível carregar a lista de professores.");
     }
   };
 
   const fetchDisciplines = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getAllDisciplines', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get(
+        "http://localhost:3000/getAllDisciplines",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setDisciplines(response.data);
     } catch (error) {
-      console.error('Erro ao buscar disciplinas:', error);
-      setError('Não foi possível carregar a lista de disciplinas.');
+      console.error("Erro ao buscar disciplinas:", error);
+      setError("Não foi possível carregar a lista de disciplinas.");
     }
   };
 
@@ -61,25 +72,27 @@ const TeacherDiscipline = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/teacherToDiscipline',
+        "http://localhost:3000/teacherToDiscipline",
         newAssociation,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       if (response.status === 201) {
-        console.log('Associação criada com sucesso:', response.data);
+        console.log("Associação criada com sucesso:", response.data);
         setShowForm(false);
-        setNewAssociation({ teacher: '', discipline: '' });
+        setNewAssociation({ teacher: "", discipline: "" });
         fetchAssociations();
       }
     } catch (error) {
-      console.error('Erro ao criar associação:', error);
+      console.error("Erro ao criar associação:", error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível criar a associação.');
+        setError(
+          error.response.data.error || "Não foi possível criar a associação."
+        );
       } else {
-        setError('Erro de conexão. Tente novamente mais tarde.');
+        setError("Erro de conexão. Tente novamente mais tarde.");
       }
     }
   };
@@ -91,42 +104,50 @@ const TeacherDiscipline = () => {
         `http://localhost:3000/editTeacherDiscipline/${editingAssociation._id}`,
         newAssociation,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       if (response.status === 200) {
-        console.log('Associação atualizada com sucesso:', response.data);
+        console.log("Associação atualizada com sucesso:", response.data);
         setEditingAssociation(null);
-        setNewAssociation({ teacher: '', discipline: '' });
+        setNewAssociation({ teacher: "", discipline: "" });
         fetchAssociations();
       }
     } catch (error) {
-      console.error('Erro ao atualizar associação:', error);
+      console.error("Erro ao atualizar associação:", error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível atualizar a associação.');
+        setError(
+          error.response.data.error ||
+            "Não foi possível atualizar a associação."
+        );
       } else {
-        setError('Erro de conexão. Tente novamente mais tarde.');
+        setError("Erro de conexão. Tente novamente mais tarde.");
       }
     }
   };
 
   const handleDeleteAssociation = async (associationId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/deleteTeacherDiscipline/${associationId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.delete(
+        `http://localhost:3000/deleteTeacherDiscipline/${associationId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (response.status === 200) {
-        console.log('Associação deletada com sucesso:', response.data.message);
+        console.log("Associação deletada com sucesso:", response.data.message);
         fetchAssociations();
       }
     } catch (error) {
-      console.error('Erro ao deletar associação:', error);
+      console.error("Erro ao deletar associação:", error);
       if (error.response) {
-        setError(error.response.data.error || 'Não foi possível deletar a associação.');
+        setError(
+          error.response.data.error || "Não foi possível deletar a associação."
+        );
       } else {
-        setError('Erro de conexão. Tente novamente mais tarde.');
+        setError("Erro de conexão. Tente novamente mais tarde.");
       }
     }
   };
@@ -135,8 +156,14 @@ const TeacherDiscipline = () => {
     <div className="teacher-discipline-container">
       <h2>Gerenciamento de Professores e Disciplinas</h2>
       <div className="button-container">
-        <button onClick={() => { setShowForm(!showForm); setEditingAssociation(null); }} className="toggle-button">
-          {showForm ? 'Voltar para Lista' : 'Associar'}
+        <button
+          onClick={() => {
+            setShowForm(!showForm);
+            setEditingAssociation(null);
+          }}
+          className="toggle-button"
+        >
+          {showForm ? "Voltar para Lista" : "Associar"}
         </button>
       </div>
 
@@ -145,26 +172,40 @@ const TeacherDiscipline = () => {
           <h3>Associar Professor - Disciplina</h3> {/* Título para criação */}
           <select
             value={newAssociation.teacher}
-            onChange={(e) => setNewAssociation({ ...newAssociation, teacher: e.target.value })}
+            onChange={(e) =>
+              setNewAssociation({ ...newAssociation, teacher: e.target.value })
+            }
             required
           >
             <option value="">Selecione um Professor</option>
-            {teachers.map(teacher => (
-              <option key={teacher._id} value={teacher._id}>{teacher.name}</option>
+            {teachers.map((teacher) => (
+              <option key={teacher._id} value={teacher._id}>
+                {teacher.name}
+              </option>
             ))}
           </select>
           <select
             value={newAssociation.discipline}
-            onChange={(e) => setNewAssociation({ ...newAssociation, discipline: e.target.value })}
+            onChange={(e) =>
+              setNewAssociation({
+                ...newAssociation,
+                discipline: e.target.value,
+              })
+            }
             required
           >
             <option value="">Selecione uma Disciplina</option>
-            {disciplines.map(discipline => (
-              <option key={discipline._id} value={discipline._id}>{discipline.name}</option>
+            {disciplines.map((discipline) => (
+              <option key={discipline._id} value={discipline._id}>
+                {discipline.name}
+              </option>
             ))}
           </select>
           <button type="submit">Associar</button>
-          <button type="button" onClick={() => setShowForm(false)}>Fechar</button> {/* Botão para fechar o formulário */}
+          <button type="button" onClick={() => setShowForm(false)}>
+            Fechar
+          </button>{" "}
+          {/* Botão para fechar o formulário */}
         </form>
       )}
 
@@ -176,26 +217,43 @@ const TeacherDiscipline = () => {
           <form onSubmit={handleEditSubmit} className="association-form">
             <select
               value={newAssociation.teacher}
-              onChange={(e) => setNewAssociation({ ...newAssociation, teacher: e.target.value })}
+              onChange={(e) =>
+                setNewAssociation({
+                  ...newAssociation,
+                  teacher: e.target.value,
+                })
+              }
               required
             >
               <option value="">Selecione um Professor</option>
-              {teachers.map(teacher => (
-                <option key={teacher._id} value={teacher._id}>{teacher.name}</option>
+              {teachers.map((teacher) => (
+                <option key={teacher._id} value={teacher._id}>
+                  {teacher.name}
+                </option>
               ))}
             </select>
             <select
               value={newAssociation.discipline}
-              onChange={(e) => setNewAssociation({ ...newAssociation, discipline: e.target.value })}
+              onChange={(e) =>
+                setNewAssociation({
+                  ...newAssociation,
+                  discipline: e.target.value,
+                })
+              }
               required
             >
               <option value="">Selecione uma Disciplina</option>
-              {disciplines.map(discipline => (
-                <option key={discipline._id} value={discipline._id}>{discipline.name}</option>
+              {disciplines.map((discipline) => (
+                <option key={discipline._id} value={discipline._id}>
+                  {discipline.name}
+                </option>
               ))}
             </select>
             <button type="submit">Atualizar</button>
-            <button type="button" onClick={() => setEditingAssociation(null)}>Fechar</button> {/* Botão para fechar o formulário de edição */}
+            <button type="button" onClick={() => setEditingAssociation(null)}>
+              Fechar
+            </button>{" "}
+            {/* Botão para fechar o formulário de edição */}
           </form>
         </div>
       )}
@@ -210,7 +268,7 @@ const TeacherDiscipline = () => {
             <tr>
               <th>Professor</th>
               <th>Disciplina</th>
-              <th className='actions-column'>Ações</th>
+              <th className="actions-column">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -218,11 +276,14 @@ const TeacherDiscipline = () => {
               <tr key={association._id}>
                 <td>{association.teacher.name}</td>
                 <td>{association.discipline.name}</td>
-                <td className='action-column'>
+                <td className="action-column">
                   <FaEdit
                     onClick={() => {
                       setEditingAssociation(association);
-                      setNewAssociation({ teacher: association.teacher._id, discipline: association.discipline._id });
+                      setNewAssociation({
+                        teacher: association.teacher._id,
+                        discipline: association.discipline._id,
+                      });
                       setShowForm(false);
                     }}
                     className="action-button action-button--edit"
