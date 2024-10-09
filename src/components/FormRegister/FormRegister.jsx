@@ -37,7 +37,7 @@ const FormRegister = ({ onSubmit, userType = 'aluno', initialData = null }) => {
   return (
     <div className="register-container">
       <h2 className='register-title'>
-        {initialData ? 'Atualizar Aluno' : 'Cadastro de Aluno'}
+        {initialData ? `Atualizar ${userType.charAt(0).toUpperCase() + userType.slice(1)}` : `Cadastrar ${userType.charAt(0).toUpperCase() + userType.slice(1)}`}
       </h2>
       <form className="register-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Nome</label>

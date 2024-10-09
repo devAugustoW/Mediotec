@@ -20,6 +20,7 @@ const ClassDiscipline = () => {
     fetchDisciplines();
   }, [token]);
 
+	// Fetch associações turma-disciplina
   const fetchAssociations = async () => {
     try {
       const response = await axios.get('http://localhost:3000/getAllClassDisciplines', {
@@ -33,6 +34,7 @@ const ClassDiscipline = () => {
     }
   };
 
+	// Fetch turmas
   const fetchClasses = async () => {
     try {
       const response = await axios.get('http://localhost:3000/getAllClasses', {
@@ -43,8 +45,9 @@ const ClassDiscipline = () => {
       console.error('Erro ao buscar turmas:', error);
       setError('Não foi possível carregar a lista de turmas.');
     }
-  };
+  	};
 
+	// Fetch disciplinas
   const fetchDisciplines = async () => {
     try {
       const response = await axios.get('http://localhost:3000/getAllDisciplines', {
@@ -57,6 +60,7 @@ const ClassDiscipline = () => {
     }
   };
 
+	// Cria uma associação turma-disciplina
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -84,6 +88,7 @@ const ClassDiscipline = () => {
     }
   };
 
+	// Atualiza uma associação turma-disciplina
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -111,6 +116,7 @@ const ClassDiscipline = () => {
     }
   };
 
+	// Deleta uma associação turma-disciplina
   const handleDeleteAssociation = async (associationId) => {
     try {
       const response = await axios.delete(`http://localhost:3000/deleteClassDiscipline/${associationId}`, {
@@ -131,17 +137,19 @@ const ClassDiscipline = () => {
     }
   };
 
-  return (
+	
+	return (
     <div className="class-discipline-container">
       <h2>Gerenciamento de Turmas e Disciplinas</h2>
       <div className="button-container">
-        <button onClick={() => { setShowForm(true); setEditingAssociation(null); }} className="toggle-button">
+        <button onClick={() => { setShowForm(!showForm); setEditingAssociation(null); }} className="toggle-button">
           {showForm ? 'Voltar para Lista' : 'Associar'}
         </button>
       </div>
 
       {showForm && !editingAssociation && (
         <form onSubmit={handleRegisterSubmit} className="association-form">
+          <h3>Associar Turma - Disciplina</h3> {/* Título para criação */}
           <select
             value={newAssociation.class}
             onChange={(e) => setNewAssociation({ ...newAssociation, class: e.target.value })}
@@ -163,33 +171,40 @@ const ClassDiscipline = () => {
             ))}
           </select>
           <button type="submit">Associar</button>
+          <button type="button" onClick={() => setShowForm(false)}>Fechar</button> {/* Botão para fechar o formulário */}
         </form>
       )}
 
       {editingAssociation && (
-        <form onSubmit={handleEditSubmit} className="association-form">
-          <select
-            value={newAssociation.class}
-            onChange={(e) => setNewAssociation({ ...newAssociation, class: e.target.value })}
-            required
-          >
-            <option value="">Selecione uma Turma</option>
-            {classes.map(classItem => (
-              <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
-            ))}
-          </select>
-          <select
-            value={newAssociation.discipline}
-            onChange={(e) => setNewAssociation({ ...newAssociation, discipline: e.target.value })}
-            required
-          >
-            <option value="">Selecione uma Disciplina</option>
-            {disciplines.map(discipline => (
-              <option key={discipline._id} value={discipline._id}>{discipline.name}</option>
-            ))}
-          </select>
-          <button type="submit">Atualizar</button>
-        </form>
+        <div className="edit-card">
+          <h3>Editar Associação</h3>
+          <p>Turma: {editingAssociation.class.name}</p>
+          <p>Disciplina: {editingAssociation.discipline.name}</p>
+          <form onSubmit={handleEditSubmit} className="association-form">
+            <select
+              value={newAssociation.class}
+              onChange={(e) => setNewAssociation({ ...newAssociation, class: e.target.value })}
+              required
+            >
+              <option value="">Selecione uma Turma</option>
+              {classes.map(classItem => (
+                <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
+              ))}
+            </select>
+            <select
+              value={newAssociation.discipline}
+              onChange={(e) => setNewAssociation({ ...newAssociation, discipline: e.target.value })}
+              required
+            >
+              <option value="">Selecione uma Disciplina</option>
+              {disciplines.map(discipline => (
+                <option key={discipline._id} value={discipline._id}>{discipline.name}</option>
+              ))}
+            </select>
+            <button type="submit">Atualizar</button>
+            <button type="button" onClick={() => setEditingAssociation(null)}>Fechar</button> 
+          </form>
+        </div>
       )}
 
       {error ? (

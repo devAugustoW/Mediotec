@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../authContext/AuthContext';
-import { FaEdit, FaTrash } from 'react-icons/fa'; 
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import './TeacherDiscipline.css';
 
 const TeacherDiscipline = () => {
@@ -135,13 +135,14 @@ const TeacherDiscipline = () => {
     <div className="teacher-discipline-container">
       <h2>Gerenciamento de Professores e Disciplinas</h2>
       <div className="button-container">
-        <button onClick={() => setShowForm(!showForm)} className="toggle-button">
+        <button onClick={() => { setShowForm(!showForm); setEditingAssociation(null); }} className="toggle-button">
           {showForm ? 'Voltar para Lista' : 'Associar'}
         </button>
       </div>
 
-      {showForm && (
+      {showForm && !editingAssociation && (
         <form onSubmit={handleRegisterSubmit} className="association-form">
+          <h3>Associar Professor - Disciplina</h3> {/* Título para criação */}
           <select
             value={newAssociation.teacher}
             onChange={(e) => setNewAssociation({ ...newAssociation, teacher: e.target.value })}
@@ -163,6 +164,7 @@ const TeacherDiscipline = () => {
             ))}
           </select>
           <button type="submit">Associar</button>
+          <button type="button" onClick={() => setShowForm(false)}>Fechar</button> {/* Botão para fechar o formulário */}
         </form>
       )}
 
@@ -193,6 +195,7 @@ const TeacherDiscipline = () => {
               ))}
             </select>
             <button type="submit">Atualizar</button>
+            <button type="button" onClick={() => setEditingAssociation(null)}>Fechar</button> {/* Botão para fechar o formulário de edição */}
           </form>
         </div>
       )}
@@ -220,6 +223,7 @@ const TeacherDiscipline = () => {
                     onClick={() => {
                       setEditingAssociation(association);
                       setNewAssociation({ teacher: association.teacher._id, discipline: association.discipline._id });
+                      setShowForm(false);
                     }}
                     className="action-button action-button--edit"
                     title="Editar"

@@ -3,16 +3,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 40px; /* Ajustei para um gap mais adequado */
-  height: 100vh;
+
+  height: auto;
   background-color: #f0f0f0;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	padding-block: 0 50px;
 
 }
 
 .register-title {
-  margin-top: -30px;
   color: #007bff;
+	margin-top: 20px;
+
 }
 
 .register-form {

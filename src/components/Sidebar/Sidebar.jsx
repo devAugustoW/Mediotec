@@ -27,7 +27,7 @@ const Sidebar = ({ setActiveSection }) => {
 				<li><a onClick={() => setActiveSection('student-class')}>Aluno/Turma</a></li>
 
         <li><a onClick={() => setActiveSection('conceitos')}>Conceitos</a></li>
-        <li><a onClick={() => setActiveSection('avisos')}>Avisos</a></li> 
+        <li><a onClick={() => setActiveSection('annoucement')}>Comunicados</a></li> 
       </ul>
       <button onClick={handleLogout}>Logout</button>
     </aside>

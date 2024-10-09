@@ -61,7 +61,7 @@ const StudentClass = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/studentClass',
+        'http://localhost:3000/studentToClass',
         newAssociation,
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -123,13 +123,14 @@ const StudentClass = () => {
     <div className="student-class-container">
       <h2>Gerenciamento de Alunos e Turmas</h2>
       <div className="button-container">
-        <button onClick={() => setShowForm(!showForm)} className="toggle-button">
+        <button onClick={() => { setShowForm(!showForm); setEditingAssociation(null); }} className="toggle-button">
           {showForm ? 'Voltar para Lista' : 'Associar'}
         </button>
       </div>
 
-      {showForm && (
-        <form onSubmit={editingAssociation ? handleEditSubmit : handleRegisterSubmit} className="association-form">
+      {showForm && !editingAssociation && (
+        <form onSubmit={handleRegisterSubmit} className="association-form">
+          <h3>Associar Aluno - Turma</h3> {/* Título para criação */}
           <select
             value={newAssociation.student}
             onChange={(e) => setNewAssociation({ ...newAssociation, student: e.target.value })}
@@ -150,7 +151,8 @@ const StudentClass = () => {
               <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
             ))}
           </select>
-          <button type="submit">{editingAssociation ? 'Atualizar' : 'Associar'}</button>
+          <button type="submit">Associar</button>
+          <button type="button" onClick={() => setShowForm(false)}>Fechar</button> {/* Botão para fechar o formulário */}
         </form>
       )}
 
@@ -181,6 +183,7 @@ const StudentClass = () => {
               ))}
             </select>
             <button type="submit">Atualizar</button>
+            <button type="button" onClick={() => setEditingAssociation(null)}>Fechar</button> {/* Botão para fechar o formulário de edição */}
           </form>
         </div>
       )}
@@ -208,7 +211,7 @@ const StudentClass = () => {
                     onClick={() => {
                       setEditingAssociation(studentClass);
                       setNewAssociation({ student: studentClass.student._id, class: studentClass.class._id });
-                      setShowForm(true);
+                      setShowForm(false);
                     }}
                     className="action-button action-button--edit"
                     title="Editar"
