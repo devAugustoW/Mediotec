@@ -1,0 +1,18 @@
+.dashboardProfessor {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.dashboardWrapper {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+}
+
+.dashboardContent {
+	flex: 1;
+	overflow-y: auto;
+	padding: 20px;
+	margin-top: 165px; 
+}

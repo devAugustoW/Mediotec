@@ -241,31 +241,31 @@ const StudentClass = () => {
             </tr>
           </thead>
           <tbody>
-            {studentClasses.map((studentClass) => (
-              <tr key={studentClass._id}>
-                <td>{studentClass.student.name}</td>
-                <td>{studentClass.class.name}</td>
-                <td className="action-column">
-                  <FaEdit
-                    onClick={() => {
-                      setEditingAssociation(studentClass);
-                      setNewAssociation({
-                        student: studentClass.student._id,
-                        class: studentClass.class._id,
-                      });
-                      setShowForm(false);
-                    }}
-                    className="action-button action-button--edit"
-                    title="Editar"
-                  />
-                  <FaTrash
-                    onClick={() => handleDeleteAssociation(studentClass._id)}
-                    className="action-button action-button--delete"
-                    title="Deletar"
-                  />
-                </td>
-              </tr>
-            ))}
+					{studentClasses.map((studentClass) => (
+						<tr key={studentClass._id}>
+							<td>{studentClass.student?.name || 'Nome não disponível'}</td>
+							<td>{studentClass.class?.name || 'Turma não disponível'}</td>
+							<td className="action-column">
+								<FaEdit
+									onClick={() => {
+										setEditingAssociation(studentClass);
+										setNewAssociation({
+											student: studentClass.student?._id || '',
+											class: studentClass.class?._id || '',
+										});
+										setShowForm(false);
+									}}
+									className="action-button action-button--edit"
+									title="Editar"
+								/>
+								<FaTrash
+									onClick={() => handleDeleteAssociation(studentClass._id)}
+									className="action-button action-button--delete"
+									title="Deletar"
+								/>
+							</td>
+						</tr>
+					))}
           </tbody>
         </table>
       )}

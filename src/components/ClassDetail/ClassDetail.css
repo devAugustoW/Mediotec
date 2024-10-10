@@ -1,0 +1,24 @@
+.class-details {
+  padding: 20px;
+}
+
+.students-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.student-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.student-name {
+  font-weight: bold;
+}
+
+.student-grade {
+  min-width: 50px;
+  text-align: center;
+}
