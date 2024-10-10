@@ -64,7 +64,7 @@ function Login() {
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Exibe a mensagem de erro */}
 
         <div className="login-button-group">
-          <Link to="/register">Fazer cadastro</Link>
+
           <button type="submit">Login</button>
         </div>
       </form>

@@ -1,22 +1,16 @@
 import React from "react";
 import "./Header.css";
-
-const getUserInfo = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user
-    ? { name: user.name, email: user.email }
-    : { name: "", email: "" };
-};
-
-const { name, email } = getUserInfo();
+import { useAuth } from "../../authContext/AuthContext";
 
 const Header = () => {
+  const { user } = useAuth();
+
   return (
     <div className="header">
       <div className="header-logo">Mediotec</div>
       <div className="header-user">
-        <p>Bem-vindo, {name}</p>
-        <p>{email}</p>
+        <p>Bem-vindo, {user?.name || ""}</p>
+        <p>{user?.email || ""}</p>
       </div>
     </div>
   );

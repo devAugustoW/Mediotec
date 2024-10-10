@@ -11,6 +11,7 @@ import TeacherDiscipline from '../../../components/TeacherDiscipline/TeacherDisc
 import ClassDiscipline from '../../../components/ClassDiscipline/ClassDiscipline';
 import StudentClass from '../../../components/StudentClass/StudentClass';
 import AnnouncementList from '../../../components/Annoucement/AnnoucementList';
+import GradeCoordinator from '../../../components/GradeCoordinator/GradeCoordinator';
 
 const DashboardCoordenador = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -33,8 +34,8 @@ const DashboardCoordenador = () => {
         return <ClassDiscipline />;
       case 'student-class':
         return <StudentClass />;
-      case 'conceitos':
-        return <GradeList />; 
+      case 'grade-coordinator':
+        return <GradeCoordinator />; 
       case 'annoucement':
         return <AnnouncementList />;
       default:

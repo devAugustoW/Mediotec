@@ -49,7 +49,7 @@ const Sidebar = ({ setActiveSection }) => {
         </li>
 
         <li>
-          <a onClick={() => setActiveSection("conceitos")}>Conceitos</a>
+          <a onClick={() => setActiveSection("grade-coordinator")}>Conceitos</a>
         </li>
         <li>
           <a onClick={() => setActiveSection("annoucement")}>Comunicados</a>
